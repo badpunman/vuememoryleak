@@ -1,28 +1,36 @@
+
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button @click="createLeak()">Create leak $nextTick</button> 
+    <br>
+    <Leaker
+      v-for="leak in leakComponents"
+      @close="close(leak)"
+      :key="leak"
+    />
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
 export default {
-  name: 'App',
+  name: "App",
+  data() {
+    return {
+      leakComponents: [],
+      count: 0,
+    };
+  },
+  methods: {
+    close(leak) {
+      this.leakComponents.splice(this.leakComponents.indexOf(leak));
+    },
+    createLeak() {
+      this.leakComponents.push(this.count);      
+      this.count++;
+    }  
+  },
   components: {
-    HelloWorld
+    Leaker: require("./Leaker.vue").default
   }
-}
+};
 </script>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
